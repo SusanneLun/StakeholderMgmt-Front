@@ -1,0 +1,25 @@
+{/*handleRating = (stakeholder, newRating) => {
+  let newStakeholdersState = [...this.state.stakeholders]
+  const stakeholderIndex = newStakeholdersState.indexOf(stakeholder)
+  newStakeholdersState[stakeholderIndex].ratings[ratings.length -1].power = newRating
+  this.setState({
+    stakeholders: newStakeholdersState
+  })
+}*/}
+
+
+{ ratings:
+  [
+    ...stakeholder.ratings, //copy all the old ratings to persist them
+    { // add a new ratings object
+      ...newRatings, // first take all the new ratings we got passed as arguments
+      ...stakeholder.ratings[ // fill it with any other ratings we had in the past
+        stakeholder.ratings.length-1 // the latest rating is at the last index in the array
+      ]
+    }
+  ]
+}
+),
+
+
+stakeholder.name &&
