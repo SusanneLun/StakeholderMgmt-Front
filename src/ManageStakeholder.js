@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import Hover from './Hover'
-import { Dropdown, Input, Button, Form, Select, Show } from 'semantic-ui-react'
+import { Dropdown, Input, Button, Form, Select } from 'semantic-ui-react'
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 const options = [
   { key: "1", text: '1',value: 1 },
@@ -15,29 +15,27 @@ const options = [
   { key: "10", text: '10', value: 10 },
 ]
 
-class NewStakeholderForm extends Component {
-constructor() {
-  super();
-  this.state = {
-    name: "",
-    title: "",
-    alias: "",
-    power: 0,
-    interest: 0,
-    positivity: 0
-  };
-}
+class ManageStakeholder extends Component {
+  constructor() {
+    super()
+    this.state = {
+      name: "",
+      title: "",
+      alias: "",
+      note: "",
+      power: 0,
+      interest: 0,
+      positivity: 0
+    }
+  }
 
+  handleChange = (event, value) => {
+  this.setState({ [event.target.name]: event.target.value })
+  }
 
-handleChange = (event, value) => {
-this.setState({ [event.target.name]: event.target.value })
-}
-
-handleNumChange = (event, data) => {
-  this.setState({ [data.name]: data.value })
-}
-
-
+  handleNumChange = (event, data) => {
+    this.setState({ [data.name]: data.value })
+  }
 
   handleSubmit = (event) => {
     event.preventDefault();
@@ -57,29 +55,30 @@ handleNumChange = (event, data) => {
       }
       )
     }).then(res => res.json())
-    .then(res => this.props.addNewStakeholder(res))
+    .then(res => this.props.updateStakeholder(res))
   }
-
 
 
 render() {
 // const { value } = this.state
 return (
-<div id="chart-page">
+<div >
   <Form onSubmit={this.handleSubmit}>
-  <h3>Create New Stakeholder</h3>
+  <h3>Edit Stakeholder</h3>
   <Form.Group widths='equal' >
     <Form.Input name="name" fluid label='Name' type="text" onChange={event => this.handleChange(event)} placeholder="Name" value={this.state.value} />
     <Form.Input name="title" fluid label='Title' type="text" onChange={this.handleChange} placeholder="Title" value={this.state.value}/>
     <Form.Input name="alias" fluid label='Alias' type="text" onChange={this.handleChange} placeholder="Alias" value={this.state.value}/>
+    <Form.Input name="note" fluid label='My Notes' type="text" onChange={this.handleChange} placeholder="My Notes" value={this.state.value}/>
     </Form.Group>
     <p>Power Rating</p>
     <Select name="power" label="Power Rating" type="number" options={options}
      onChange={this.handleNumChange} value={this.state.value} />
     <p>Interest Rating</p>
     <Select name="interest" label='Interest Rating' placeholder="Select" onChange={this.handleNumChange} options={options} value={this.state.value}/>
-    <p> Support Rating </p>
+    <p>Support Rating</p>
     <Select name="positivity" label='Positivity Rating' placeholder="Select" onChange={this.handleNumChange} options={options} />
+
     <Form.Button type="submit" color="blue"> Save Stakeholder </Form.Button>
 
 </Form>
@@ -89,4 +88,4 @@ return (
 }
 }
 
-export default NewStakeholderForm;
+export default ManageStakeholder;

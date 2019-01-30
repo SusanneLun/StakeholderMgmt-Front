@@ -35,3 +35,16 @@
   border-color: coral;
   border-width: 7px
 }
+
+#locator { position: absolute; visibility: visible; left: 500px; top: 300px; z-index: 200; }
+
+
+#chart-page {
+  display: flex;
+  justify-content: space-between;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-around;
+}

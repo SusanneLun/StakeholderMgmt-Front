@@ -2,14 +2,18 @@ import React, { Component } from 'react';
 import ProjectContainer from './ProjectContainer'
 import SearchBar from "./SearchBar"
 import Stakeholder from './Stakeholder'
+import NewStakeholderForm from './NewStakeholderForm'
+import ManageStakeholder from './ManageStakeholder'
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+// import {StyleSheet, View, WebView} from 'react-native';
+
+import chartData from './ChartData'
+
 // import AnyChart from "./AnyChart"
-
-
 
 // const sData = stakeholderData.map(function(projects) {
 //   return projects.name;
 // })
-
 
 class App extends Component {
 constructor() {
@@ -17,8 +21,15 @@ constructor() {
     this.state = {
       stakeholders: [],
       filter: '',
-      selectedStakeholder: null
+      selectedStakeholder: null,
+      chartData: chartData
     }
+}
+
+addNewStakeholder = (stakeholder) => {
+  this.setState({
+    stakeholders: [...this.state.stakeholders, stakeholder]
+  })
 }
 
 updateFilter = newFilter => {
@@ -39,8 +50,19 @@ selectStakeholder = (stakeholder) => {
   })
 }
 
-
-
+updateStakeholder = (stakeholder, updatedRatings) => {
+  let updatedStakeholder = {
+    name: updatedStakeholder.name === "" ? stakeholder.name : updatedStakeholder.name,
+    title: updatedStakeholder.title === "" ? stakeholder.title : updatedStakeholder.title,
+    alias: updatedStakeholder.alias === "" ? stakeholder.alias : updatedStakeholder.alias,
+    note: updatedStakeholder.note === "" ? stakeholder.note : updatedStakeholder.note
+  }
+  let updatedRating = {
+    power: updatedRatings.power === "" ? stakeholder.ratings[stakeholder.ratings.length - 1].power : updatedRatings.power,
+    interest: updatedRatings.interest === "" ? stakeholder.ratings[stakeholder.ratings.length - 1].interest : updatedRatings.interest,
+    positivity: updatedRatings.positivity === "" ? stakeholder.ratings[stakeholder.ratings.length - 1].positivity : updatedRatings.positivity
+  }
+}
 
 handleRating = (stakeholder, newRatings) => {
 
@@ -50,7 +72,6 @@ handleRating = (stakeholder, newRatings) => {
   //     stakeholder.ratings.length-1 // the latest rating is at the last index in the array
   //   ]
   // }
-
 
  let newRating = {
    power: newRatings.power === "" ? stakeholder.ratings[stakeholder.ratings.length - 1].power : newRatings.power,
@@ -107,18 +128,37 @@ render() {
 return (
       <div className="App">
         <header>
+
           {!this.state.selectedStakeholder && <SearchBar updateFilter={this.updateFilter}/>}
           {this.state.selectedStakeholder ? <Stakeholder /> :
         <ProjectContainer stakeholders={this.state.stakeholders}
         handleRating={this.handleRating}
         filter={this.state.filter}
-        selectStakeholder={this.selectStakeholder}/>}
+        selectStakeholder={this.selectStakeholder}/>} <NewStakeholderForm addNewStakeholder={this.addNewStakeholder}/>
+      //Pass the function updateStakeholder to ManageStakeholder
+
         </header>
+
+
+      {/*//   <View style={styles.container}>
+      //   // <WebView
+      //   //   source={require('./resources/chart.html')}
+      //   //   javaScriptEnabled={true}
+      //   //   domStorageEnabled={true}
+      //   //   startInLoadingState={true}
+      //   // />
+      // </View>*/}
       </div>
 
     );
   }
 }
+
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1
+//   }
+// })
 
 
 export default App;

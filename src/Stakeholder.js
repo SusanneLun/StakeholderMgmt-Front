@@ -52,7 +52,7 @@ render() {
 
     <Card color='blue'>
     <Card.Content>
-      <Card.Header>{name}</Card.Header>
+      <Card.Header>{name} </Card.Header>
       <Card.Meta>
         <span className='date'> {alias}</span>
       </Card.Meta>
