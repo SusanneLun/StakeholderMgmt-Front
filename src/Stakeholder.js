@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Card, Input } from 'semantic-ui-react'
+import { Link } from 'react-router-dom'
 
 
 
@@ -46,56 +47,45 @@ onHandleRating = (event) => {
 // }
 
 render() {
-  const { name, title, alias, ratings } = this.props.stakeholder
+  const { name, title, alias, ratings, id } = this.props.stakeholder
   return (
 
 
-    <Card color='blue'>
-    <Card.Content>
-      <Card.Header>{name} </Card.Header>
-      <Card.Meta>
-        <span className='date'> {alias}</span>
-      </Card.Meta>
-      <Card.Description>{title}</Card.Description>
-      </Card.Content>
-      <h5> Power Score: {ratings && ratings[ratings.length -1].power}<input className='Input' type="text-field"
-      style={{width: 70, marginLeft: 30}} placeholder='Change..'
-      name="power" value={this.state.power}
-      onChange={this.ratingField}/> </h5>
-      <h5> Interest Score: {ratings && ratings[ratings.length -1].interest}
-      <input type="text-field" style={{width: 70, marginLeft: 23}} placeholder='Change..'
-      name="interest" value={this.state.interest}
-      onChange={this.ratingField}/>
-      <br/>
-      <br/>
-      <Button compact color='blue' onClick={this.onHandleRating}> Save Rating </Button></h5>
+    <Card color='purple' className={"stakeholder_card"}>
+      <Card.Content >
+        <Card.Header key={id}>
+          <Link to={"/manage_stakeholder/" + id}>{name}</Link>
+          <Card.Meta>
+            <span className='date'> {alias}</span>
+          </Card.Meta>
+          <Card.Description>{title}</Card.Description>
+        </Card.Header>
 
+        </Card.Content>
+          <div className={"stakeholder_card__input"}>
+            <label> Power Score: {ratings && ratings[ratings.length -1].power}</label>
+            <input type="text-field"
+              placeholder='Change..'
+              name="power" value={this.state.power}
+              onChange={this.ratingField}/>
+          </div>
+          <div className={"stakeholder_card__input"}>
+            <label> Interest Score: {ratings && ratings[ratings.length -1].interest}</label>
+            <input
+              type="text-field"
+              placeholder='Change..'
+              name="interest"
+              value={this.state.interest}
+              onChange={this.ratingField} />
+          </div>
+          <div className={"stakeholder_card__submit"}>
+            <Button compact color='purple' onClick={this.onHandleRating}> Save Rating </Button>
+          </div>
 
-    <Card.Content extra>
-      <a>
-
-      </a>
+        <Card.Content extra>
     </Card.Content>
   </Card>
-      // <h4> </h4>
-      // <h7>  </h7>
-      // <br/>
-      // <h7> Power Score: {ratings && ratings[ratings.length -1].power}
-      // <input className='Input' type="text-field"
-      // style={{width: 70, margin: 20}} placeholder='Change..'
-      // name="power" value={this.state.power}
-      // onChange={this.ratingField}/> </h7>
-      // <br/>
-      // <h7> Interest Score: {ratings && ratings[ratings.length -1].interest}
-      // <input type="text-field"
-      // style={{width: 70, margin: 20}} placeholder='Change..'
-      // name="interest" value={this.state.interest}
-      // onChange={this.ratingField}/> <button class="ui button" color='olive' onClick={this.onHandleRating}> Save Rating </button> </h7>
-      // <br/>
-      // <br/>
-
-
-
+    
   )
 
 }

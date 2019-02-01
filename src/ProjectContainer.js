@@ -12,16 +12,14 @@ render() {
   const filteredStakeholders = this.props.stakeholders
   .filter(stakeholder => stakeholder.name && stakeholder.name.toLowerCase().includes(this.props.filter.toLowerCase()))
   return (
-  <div className='ui container' id="chart-page">
-    {filteredStakeholders.map(stakeholder =>
-    <Stakeholder stakeholder={stakeholder}
-    key={stakeholder.name}
-    handleRating={this.props.handleRating}
-    selectStakeholder={this.props.selectStakeholder}/>)}
-    <div className='ui container'>
-
-
-    </div>
+  <div className="ui-container stakeholders_list" id="chart-page">
+    {
+      filteredStakeholders.map(stakeholder =>
+        <Stakeholder stakeholder={stakeholder}
+          key={stakeholder.name}
+          handleRating={this.props.handleRating}
+          selectStakeholder={this.props.selectStakeholder}/>)
+    }
 
   </div>
 )

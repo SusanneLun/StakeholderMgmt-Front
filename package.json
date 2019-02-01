@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "4": "0.0.0",
+    "anychart": "^8.5.0",
     "anychart-react": "^1.4.1",
     "graceful-fs": "^4.1.15",
     "react": "^16.7.0",

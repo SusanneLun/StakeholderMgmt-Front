@@ -19,15 +19,19 @@ class ManageStakeholder extends Component {
   constructor() {
     super()
     this.state = {
-      name: "",
-      title: "",
-      alias: "",
-      note: "",
-      power: 0,
-      interest: 0,
-      positivity: 0
+      stakeholder: {}
+
     }
   }
+
+  // componentDidMount () {
+  //     const { id } = this.props.match.params
+  //     fetch(`/manage_stakeholder/:id`
+  //       .then((stakeholder) => {
+  //         this.setState(() => ({ stakeholder }))
+  //       })
+  //
+
 
   handleChange = (event, value) => {
   this.setState({ [event.target.name]: event.target.value })
@@ -39,7 +43,7 @@ class ManageStakeholder extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    fetch(`http://localhost:3000/stakeholders`, {
+    fetch(`http://localhost:3000/stakeholders/:id`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -59,17 +63,28 @@ class ManageStakeholder extends Component {
   }
 
 
+
+
+
 render() {
-// const { value } = this.state
+
+// const stakeholderId = ({ match }) => (
+//   <div>
+//   <p> ID: {match.params.id} </p>
+//   </div>
+// )
+
 return (
 <div >
-  <Form onSubmit={this.handleSubmit}>
-  <h3>Edit Stakeholder</h3>
+  <Form onSubmit={this.handleSubmit} style={{marginLeft: 50, top: 80}}>
+  <p></p>
+  <p></p>
+  <h3>View And Edit Stakeholder</h3>
   <Form.Group widths='equal' >
-    <Form.Input name="name" fluid label='Name' type="text" onChange={event => this.handleChange(event)} placeholder="Name" value={this.state.value} />
-    <Form.Input name="title" fluid label='Title' type="text" onChange={this.handleChange} placeholder="Title" value={this.state.value}/>
-    <Form.Input name="alias" fluid label='Alias' type="text" onChange={this.handleChange} placeholder="Alias" value={this.state.value}/>
-    <Form.Input name="note" fluid label='My Notes' type="text" onChange={this.handleChange} placeholder="My Notes" value={this.state.value}/>
+    <Form.Input value={this.state.name} name="name" fluid label="Name" type="text" onChange={event => this.handleChange(event)}  value={this.state.value} />
+    <Form.Input name="title" fluid label='Title' type="text" onChange={this.handleChange}  value={this.state.value}/>
+    <Form.Input name="alias" fluid label='Alias' type="text" onChange={this.handleChange}  value={this.state.value}/>
+    <Form.Input name="note" fluid label='My Notes' type="text" onChange={this.handleChange} value={this.state.value}/>
     </Form.Group>
     <p>Power Rating</p>
     <Select name="power" label="Power Rating" type="number" options={options}
@@ -78,8 +93,8 @@ return (
     <Select name="interest" label='Interest Rating' placeholder="Select" onChange={this.handleNumChange} options={options} value={this.state.value}/>
     <p>Support Rating</p>
     <Select name="positivity" label='Positivity Rating' placeholder="Select" onChange={this.handleNumChange} options={options} />
-
-    <Form.Button type="submit" color="blue"> Save Stakeholder </Form.Button>
+    <p></p>
+    <Form.Button type="submit" color="purple"> Update Stakeholder </Form.Button>
 
 </Form>
 </div>

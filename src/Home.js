@@ -6,6 +6,8 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 const Home = () => {
   return (
     <div>
+    <p></p>
+    <p></p>
       <h1>Home!</h1>
     </div>
   );

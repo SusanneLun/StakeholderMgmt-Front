@@ -16,7 +16,7 @@ ReactDOM.render((
       <Navbar />
       <Route exact path="/" component={Home} />
       <Route exact path="/PI_chart" component={App} />
-      <Route exact path="/manage_stakeholder" component={ManageStakeholder} />
+      <Route exact path="/manage_stakeholder/:id" component={ManageStakeholder} />
     </React.Fragment>
   </Router>), document.getElementById('root'));
 

@@ -8,7 +8,7 @@ const link = {
   width: '100px',
   padding: '12px',
   margin: '0 6px 6px',
-  background: 'blue',
+  background: 'purple',
   textDecoration: 'none',
   color: 'white',
 }
@@ -24,7 +24,7 @@ const Navbar = () =>
       style={link}
       /* add prop for activeStyle */
       activeStyle={{
-        background: 'darkblue'
+        background: 'violet'
       }}
     >Home</NavLink>
     <NavLink
@@ -32,7 +32,7 @@ const Navbar = () =>
       exact
       style={link}
       activeStyle={{
-        background: 'darkblue'
+        background: 'purple'
       }}
     >PI Chart</NavLink>
     <NavLink
@@ -40,7 +40,7 @@ const Navbar = () =>
       exact
       style={link}
       activeStyle={{
-        background: 'darkblue'
+        background: 'purple'
       }}
     >Manage Stakeholder</NavLink>
   </div>;

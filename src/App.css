@@ -1,8 +1,128 @@
 .App {
   text-align: left;
-  margin-top: 30px;
-  margin-left: 30px;
 
+
+}
+/*
+html, body, #container {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+} */
+
+
+* {
+  box-sizing: border-box;
+}
+
+html, body, #root, #bar-chart {
+}
+
+.char_page {
+  display: flex;
+  width: 100%;
+}
+
+.stakeholders_wrapper {
+  width: 30%;
+  max-width: 400px;
+  padding: 2em;
+}
+
+.search_form {
+  margin-bottom: 40px;
+}
+
+.search_form > div {
+  width: 100%;
+}
+
+.search_form input {
+  width: 100%;
+}
+
+.ui.card.stakeholder_card {
+  padding: 1em;
+}
+
+.ui.card.stakeholder_card .content {
+  padding: 1em 0;
+}
+
+.ui.card.stakeholder_card .header a {
+  color: #ad3acf;
+}
+
+.ui.card.stakeholder_card .meta {
+  font-size: .75em;
+}
+
+.ui.card.stakeholder_card .description {
+  font-size: 0.9em;
+}
+
+.ui.card .stakeholder_card__input {
+  padding: 0.5em 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.ui.card .stakeholder_card__input input {
+  width: 40%;
+}
+
+.ui.card .stakeholder_card__submit {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1em;
+}
+
+.graph_section_wrapper {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.graph_section_wrapper #bar-chart {
+  height: 700px;
+  width: 700px;
+}
+
+#create-stakeholder {
+  margin-top: 3em;
+  width: 70%;
+}
+
+#create-stakeholder .equal.width.fields {
+  margin: 0;
+  justify-content: space-between;
+  margin-bottom: 1em;
+}
+
+#create-stakeholder .equal.width.fields:nth-child(3) {
+  justify-content: flex-start;
+}
+
+#create-stakeholder .equal.width.fields:nth-child(3) .new_stakeholder_input {
+  margin-right: 1em;
+}
+
+#create-stakeholder .equal.width.fields .field {
+  padding: 0;
+  width: 30%;
+  flex: inherit;
+}
+
+.new_stakeholder_submit {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.new_stakeholder_input {
+  display: flex;
+  flex-direction: column;
 }
 
 .App-logo {
@@ -30,21 +150,48 @@
   margin-left: 500px;
 }
 
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .Input {
   border-style: solid;
   border-color: coral;
   border-width: 7px
 }
 
-#locator { position: absolute; visibility: visible; left: 500px; top: 300px; z-index: 200; }
+#locator {
+
+}
 
 
 #chart-page {
-  display: flex;
-  justify-content: space-between;
+
+
+}
+
+#chart-position {
+
 }
 
 .navbar {
   display: flex;
   justify-content: space-around;
+}
+
+#create-stakeholder {
+
+}
+
+#edit-stakeholder {
+
 }

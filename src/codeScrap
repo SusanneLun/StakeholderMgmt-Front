@@ -23,3 +23,8 @@
 
 
 stakeholder.name &&
+
+
+      fetch('http://localhost:3000/stakeholders')
+      .then(res => res.json())
+      .then(stakeholders => this.setState({ stakeholders: stakeholders}))

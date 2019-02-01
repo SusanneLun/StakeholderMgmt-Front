@@ -58,31 +58,61 @@ handleNumChange = (event, data) => {
       )
     }).then(res => res.json())
     .then(res => this.props.addNewStakeholder(res))
+    .then(this.setState({
+      name: "",
+      title: "",
+      alias: "",
+      power: 0,
+      interest: 0,
+      positivity: 0
+    }))
+
   }
 
-
+  updateFilter = newFilter => {
+    this.setState({
+      filter: newFilter
+    })
+  }
 
 render() {
 // const { value } = this.state
 return (
-<div id="chart-page">
+<div id="create-stakeholder">
   <Form onSubmit={this.handleSubmit}>
-  <h3>Create New Stakeholder</h3>
-  <Form.Group widths='equal' >
-    <Form.Input name="name" fluid label='Name' type="text" onChange={event => this.handleChange(event)} placeholder="Name" value={this.state.value} />
-    <Form.Input name="title" fluid label='Title' type="text" onChange={this.handleChange} placeholder="Title" value={this.state.value}/>
-    <Form.Input name="alias" fluid label='Alias' type="text" onChange={this.handleChange} placeholder="Alias" value={this.state.value}/>
+    <h3>Create New Stakeholder</h3>
+    <Form.Group widths='equal' >
+      <Form.Input name="name" fluid label='Name' type="text" onChange={event => this.handleChange(event)} placeholder="Name" value={this.state.value} />
+      <Form.Input name="title" fluid label='Title' type="text" onChange={this.handleChange} placeholder="Title" value={this.state.value}/>
+      <Form.Input name="alias" fluid label='Alias' type="text" onChange={this.handleChange} placeholder="Alias" value={this.state.value}/>
     </Form.Group>
-    <p>Power Rating</p>
-    <Select name="power" label="Power Rating" type="number" options={options}
-     onChange={this.handleNumChange} value={this.state.value} />
-    <p>Interest Rating</p>
-    <Select name="interest" label='Interest Rating' placeholder="Select" onChange={this.handleNumChange} options={options} value={this.state.value}/>
-    <p> Support Rating </p>
-    <Select name="positivity" label='Positivity Rating' placeholder="Select" onChange={this.handleNumChange} options={options} />
-    <Form.Button type="submit" color="blue"> Save Stakeholder </Form.Button>
 
-</Form>
+    <Form.Group widths='equal' >
+      <div className={"new_stakeholder_input"}>
+        <label>Power Rating</label>
+        <Select name="power" label="Power Rating" type="number" options={options}
+            placeholder="Select"
+                onChange={this.handleNumChange} value={this.state.value} />
+      </div>
+
+
+      <div className={"new_stakeholder_input"}>
+        <label>Interest Rating</label>
+        <Select name="interest" label='Interest Rating' placeholder="Select"
+                onChange={this.handleNumChange} options={options} value={this.state.value}/>
+      </div>
+
+      <div className={"new_stakeholder_input"}>
+        <label> Support Rating </label>
+        <Select name="positivity" label='Positivity Rating' placeholder="Select" onChange={this.handleNumChange} options={options} />
+      </div>
+
+    </Form.Group>
+
+    <div className={"new_stakeholder_submit"}>
+      <Form.Button type="submit" color="purple"> Save Stakeholder </Form.Button>
+    </div>
+  </Form>
 </div>
 
   );

@@ -5,15 +5,44 @@ import Stakeholder from './Stakeholder'
 import NewStakeholderForm from './NewStakeholderForm'
 import ManageStakeholder from './ManageStakeholder'
 import { BrowserRouter as Router, Route } from 'react-router-dom';
+import './App.css';
+import AnyChart from 'anychart-react'
+import anychart from 'anychart'
 // import {StyleSheet, View, WebView} from 'react-native';
 
 import chartData from './ChartData'
 
-// import AnyChart from "./AnyChart"
+const quarters = {
+  rightTop: {
+    title: {
+      text: '',
+      fontColor: '#ff8f00',
+      padding: 10
+    }
+  },
+  rightBottom: {
+    title: {
+      text: '',
+      fontColor: '#ff8f00',
+      padding: 10
+    }
+  },
+  leftTop: {
+    title: {
+      text: '',
+      fontColor: '#ff8f00',
+      padding: 10
+    }
+  },
+  leftBottom: {
+    title: {
+      text: '',
+      fontColor: '#ff8f00',
+      padding: 10
+    }
+  }
+}
 
-// const sData = stakeholderData.map(function(projects) {
-//   return projects.name;
-// })
 
 class App extends Component {
 constructor() {
@@ -22,21 +51,32 @@ constructor() {
       stakeholders: [],
       filter: '',
       selectedStakeholder: null,
-      chartData: chartData
+      chartData: null
     }
 }
 
 addNewStakeholder = (stakeholder) => {
+  let newStakeholderState = [...this.state.stakeholders, stakeholder]
   this.setState({
-    stakeholders: [...this.state.stakeholders, stakeholder]
+    stakeholders: newStakeholderState,
+    chartData: newStakeholderState.map(stakeholder => { return {x: stakeholder.ratings[stakeholder.ratings.length -1].interest,
+    value: stakeholder.ratings[stakeholder.ratings.length -1].power,
+    name: stakeholder.name}})
   })
 }
 
-updateFilter = newFilter => {
-  this.setState({
-    filter: newFilter
-  })
-}
+addStakeholderFields = (event) => {
+  const newValues = event.target.value
+    this.setState({
+      [event.target.name]: newValues
+    })
+  }
+
+  updateFilter = newFilter => {
+    this.setState({
+      filter: newFilter
+    })
+  }
 
 deselectStakeholder = () => {
   this.setState({
@@ -101,7 +141,10 @@ handleRating = (stakeholder, newRatings) => {
     // replace that whole stakeholder object with the new stakeholderToUpdate
     newStakeholdersState[indexToUpdate] = stakeholderToUpdate
     this.setState({
-      stakeholders: newStakeholdersState
+      stakeholders: newStakeholdersState,
+      chartData: newStakeholdersState.map(stakeholder => { return {x: stakeholder.ratings[stakeholder.ratings.length -1].interest,
+      value: stakeholder.ratings[stakeholder.ratings.length -1].power,
+      name: stakeholder.name}})
     })
     // set
   })
@@ -121,52 +164,102 @@ componentDidMount() {
   fetch('http://localhost:3000/stakeholders')
   .then(res => res.json())
   .then(stakeholders => this.setState({ stakeholders: stakeholders}))
+  .then(chartData => this.setState({ chartData:
+    this.state.stakeholders.map(stakeholder => { return {x: stakeholder.ratings[stakeholder.ratings.length -1].interest,
+    value: stakeholder.ratings[stakeholder.ratings.length -1].power,
+    name: stakeholder.name}})
+    }))
 }
 
 
-render() {
+// function = () =>
+// this.setState({
+//   chartData: {
+//     x: this.state.stakeholders.map(stakeholder => stakeholder.ratings.power), value: this.state.stakeholders.map(stakeholder.ratings.interest), name: this.state.stakeholders.map(stakeholder.name)}
+// })
+
+
+
+  render() {
+
+
+    let chart = anychart.quadrant();
+    let yTitle = chart.yAxis().title();
+    yTitle.enabled(true);
+    yTitle.text("Power Rating --->");
+    yTitle.align("bottom");
+
+    let yScale = anychart.scales.linear();
+
+
+    let yAxis = chart.yAxis(0);
+    yAxis.scale(yScale);
+
+
+    chart.xAxis().title("Interest Rating --->");
+
+    chart.yScale().minimum(-0.5);
+    chart.yScale().maximum(11.5);
+    chart.xScale().minimum(-0.5);
+    chart.xScale().maximum(11.5)
+
+    chart.title("Power/Interest Position")
+    chart.container("container")
+    chart.draw();
+
+
+    const dataSet = anychart.data.set(this.state.chartData);
+
+    var markers = chart.marker(dataSet);
+    // set labels settings
+    markers.labels()
+      .enabled(true)
+      .fontFamily('Arial')
+      .fontColor('#546e7a')
+      .position('right')
+      .anchor('left-center')
+      .offsetX(2)
+      .offsetY(2)
+      .format('{%Name}');
+    // disabled tooltip
+    markers.tooltip(true);
+
+    chart.quarters(quarters);
+
+
 return (
-      <div className="App">
-        <header>
-
+      <div className="char_page">
+        <div className={"stakeholders_wrapper"}>
           {!this.state.selectedStakeholder && <SearchBar updateFilter={this.updateFilter}/>}
-          {this.state.selectedStakeholder ? <Stakeholder /> :
-        <ProjectContainer stakeholders={this.state.stakeholders}
-        handleRating={this.handleRating}
-        filter={this.state.filter}
-        selectStakeholder={this.selectStakeholder}/>} <NewStakeholderForm addNewStakeholder={this.addNewStakeholder}/>
-      //Pass the function updateStakeholder to ManageStakeholder
+          {
+            this.state.selectedStakeholder
+            ?
+            <Stakeholder />
+            :
+            <ProjectContainer stakeholders={this.state.stakeholders}
+                              selectedStakeholder={this.selectedStakeholder}
+                              handleRating={this.handleRating}
+                              filter={this.state.filter}
+                              selectStakeholder={this.selectStakeholder}/>
+          }
+        </div>
 
-        </header>
-
-
-      {/*//   <View style={styles.container}>
-      //   // <WebView
-      //   //   source={require('./resources/chart.html')}
-      //   //   javaScriptEnabled={true}
-      //   //   domStorageEnabled={true}
-      //   //   startInLoadingState={true}
-      //   // />
-      // </View>*/}
+        <div className={"graph_section_wrapper"}>
+          <div className="App " id='chart-position' >
+            <AnyChart
+              width='100%'
+              height='100%'
+              id='bar-chart'
+              instance={chart}
+              />
+          </div>
+          <NewStakeholderForm addNewStakeholder={this.addNewStakeholder}/>
+        </div>
       </div>
 
     );
   }
 }
 
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1
-//   }
-// })
-
 
 export default App;
-
-
-
-// <img className="App-chart"/>
-// <AnyChart
-// type="pie"
-// data={[1, 2, 3, 4]}
-// title="Simple pie chart"/>
