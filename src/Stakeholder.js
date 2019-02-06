@@ -85,7 +85,7 @@ render() {
         <Card.Content extra>
     </Card.Content>
   </Card>
-    
+
   )
 
 }

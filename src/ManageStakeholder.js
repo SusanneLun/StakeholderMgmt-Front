@@ -18,19 +18,27 @@ const options = [
 class ManageStakeholder extends Component {
   constructor() {
     super()
-    this.state = {
-      stakeholder: {}
-
+      this.state = {
+        name: "",
+        title: "",
+        alias: "",
+        note: "",
+        power: 0,
+        interest: 0,
+        positivity: 0
     }
   }
 
-  // componentDidMount () {
-  //     const { id } = this.props.match.params
-  //     fetch(`/manage_stakeholder/:id`
-  //       .then((stakeholder) => {
-  //         this.setState(() => ({ stakeholder }))
-  //       })
-  //
+  componentDidMount() {
+      const { id } = this.props.match.params
+      fetch(`http://localhost:3000/stakeholders/${id}`)
+        .then(res => res.json())
+        .then(stakeholder => this.setState({ name: stakeholder.name, alias: stakeholder.alias, title: stakeholder.title,
+          note: stakeholder.note, power: stakeholder.ratings[stakeholder.ratings.length -1].power,
+          interest: stakeholder.ratings[stakeholder.ratings.length -1].interest,
+          positivity: stakeholder.ratings[stakeholder.ratings.length -1].positivity }))
+        }
+
 
 
   handleChange = (event, value) => {
@@ -39,29 +47,64 @@ class ManageStakeholder extends Component {
 
   handleNumChange = (event, data) => {
     this.setState({ [data.name]: data.value })
+
   }
 
-  handleSubmit = (event) => {
-    event.preventDefault();
-    fetch(`http://localhost:3000/stakeholders/:id`, {
-      method: 'POST',
+  // updateStakeholder = (stakeholder, updatedRatings) => {
+  //   let updatedStakeholder = {
+  //     name: updatedStakeholder.name === "" ? stakeholder.name : updatedStakeholder.name,
+  //     title: updatedStakeholder.title === "" ? stakeholder.title : updatedStakeholder.title,
+  //     alias: updatedStakeholder.alias === "" ? stakeholder.alias : updatedStakeholder.alias,
+  //     note: updatedStakeholder.note === "" ? stakeholder.note : updatedStakeholder.note
+  //   }
+  //   let updatedRating = {
+  //     power: updatedRatings.power === "" ? stakeholder.ratings[stakeholder.ratings.length - 1].power : updatedRatings.power,
+  //     interest: updatedRatings.interest === "" ? stakeholder.ratings[stakeholder.ratings.length - 1].interest : updatedRatings.interest,
+  //     positivity: updatedRatings.positivity === "" ? stakeholder.ratings[stakeholder.ratings.length - 1].positivity : updatedRatings.positivity
+  //   }
+  // }
+
+
+
+  handleSubmit = (stakeholder, updatedValues) => {
+
+    let updatedValue = {
+      name: updatedValues.name === "" ? stakeholder.name : updatedValues.name,
+      title: updatedValues.title === "" ? stakeholder.title : updatedValues.title,
+      alias:  updatedValues.alias === "" ? stakeholder.alias : updatedValues.alias,
+      note:  updatedValues.note === "" ? stakeholder.note : updatedValues.note,
+      power: updatedValues.power === "" ? stakeholder.ratings[stakeholder.ratings.length - 1].power : updatedValues.power,
+      interest: updatedValues.interest === "" ? stakeholder.ratings[stakeholder.ratings.length - 1].interest : updatedValues.interest,
+      positivity: updatedValues.positivity === "" ? stakeholder.ratings[stakeholder.ratings.length - 1].positivity : updatedValues.positivity,
+  }
+  const { id } = this.props.match.params
+    fetch(`http://localhost:3000/stakeholders/${id}`, {
+      method: 'PATCH',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(
-        {
-        name: this.state.name,
-        title: this.state.title,
-        alias: this.state.alias,
-        power: this.state.power,
-        interest: this.state.interest,
-        positivity: this.state.positivity
-      }
-      )
+      body: JSON.stringify( updatedValue ),
     }).then(res => res.json())
-    .then(res => this.props.updateStakeholder(res))
+    .then(stakeholder => {
+      this.setState({ name: stakeholder.name, alias: stakeholder.alias, title: stakeholder.title,
+        note: stakeholder.note, power: stakeholder.ratings[stakeholder.ratings.length -1].power,
+        interest: stakeholder.ratings[stakeholder.ratings.length -1].interest,
+        positivity: stakeholder.ratings[stakeholder.ratings.length -1].positivity
+      })
+    })
   }
 
+
+handleDelete = (stakeholder) => {
+  const { id } = this.props.match.params
+  fetch(`http://localhost:3000/stakeholders/${id}`, {
+    method: 'DELETE',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ stakeholder })
+  })
+}
 
 
 
@@ -76,26 +119,28 @@ render() {
 
 return (
 <div >
-  <Form onSubmit={this.handleSubmit} style={{marginLeft: 50, top: 80}}>
+  <Form  style={{marginLeft: 50, top: 80}}>
   <p></p>
   <p></p>
   <h3>View And Edit Stakeholder</h3>
   <Form.Group widths='equal' >
-    <Form.Input value={this.state.name} name="name" fluid label="Name" type="text" onChange={event => this.handleChange(event)}  value={this.state.value} />
-    <Form.Input name="title" fluid label='Title' type="text" onChange={this.handleChange}  value={this.state.value}/>
-    <Form.Input name="alias" fluid label='Alias' type="text" onChange={this.handleChange}  value={this.state.value}/>
-    <Form.Input name="note" fluid label='My Notes' type="text" onChange={this.handleChange} value={this.state.value}/>
+    <Form.Input  name="name" fluid label="Name" type="text" onChange={event => this.handleChange(event)} value={this.state.name} />
+    <Form.Input name="title" fluid label='Title' type="text" onChange={this.handleChange}  value={this.state.title}/>
+    <Form.Input name="alias" fluid label='Alias' type="text" onChange={this.handleChange}  value={this.state.alias}/>
+    <Form.Input name="note" fluid label='My Notes' type="text" onChange={this.handleChange} value={this.state.note}/>
     </Form.Group>
     <p>Power Rating</p>
     <Select name="power" label="Power Rating" type="number" options={options}
-     onChange={this.handleNumChange} value={this.state.value} />
+     onChange={this.handleNumChange} value={this.state.power} />
     <p>Interest Rating</p>
-    <Select name="interest" label='Interest Rating' placeholder="Select" onChange={this.handleNumChange} options={options} value={this.state.value}/>
+    <Select name="interest" label='Interest Rating' placeholder="Select" onChange={this.handleNumChange} options={options} value={this.state.interest}/>
     <p>Support Rating</p>
-    <Select name="positivity" label='Positivity Rating' placeholder="Select" onChange={this.handleNumChange} options={options} />
+    <Select name="positivity" label='Positivity Rating' placeholder="Select" onChange={this.handleNumChange} options={options} value={this.state.positivity}/>
     <p></p>
-    <Form.Button type="submit" color="purple"> Update Stakeholder </Form.Button>
-
+    <div className={"new_stakeholder_submit"}>
+    <Form.Button type="submit" onSubmit={() => this.handleSubmit(this.props.match.params.id, this.state)} color="purple"> Update Stakeholder </Form.Button>
+    <Form.Button type="delete"  color="red" onClick={() => this.handleDelete(this.props.match.params.id, this.state)}> Delete Stakeholder </Form.Button>
+    </div>
 </Form>
 </div>
 

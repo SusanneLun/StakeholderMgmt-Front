@@ -15,28 +15,28 @@ import chartData from './ChartData'
 const quarters = {
   rightTop: {
     title: {
-      text: '',
+      text: 'Manage Closely',
       fontColor: '#ff8f00',
       padding: 10
     }
   },
   rightBottom: {
     title: {
-      text: '',
+      text: 'Keep Informed',
       fontColor: '#ff8f00',
       padding: 10
     }
   },
   leftTop: {
     title: {
-      text: '',
+      text: 'Keep Satisfied',
       fontColor: '#ff8f00',
       padding: 10
     }
   },
   leftBottom: {
     title: {
-      text: '',
+      text: 'Monitor',
       fontColor: '#ff8f00',
       padding: 10
     }

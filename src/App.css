@@ -90,6 +90,12 @@ html, body, #root, #bar-chart {
   width: 700px;
 }
 
+.welcome_page {
+  display: center;
+  margin-left: 4em;
+  width: 100%;
+}
+
 #create-stakeholder {
   margin-top: 3em;
   width: 70%;

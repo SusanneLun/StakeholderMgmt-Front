@@ -69,11 +69,11 @@ handleNumChange = (event, data) => {
 
   }
 
-  updateFilter = newFilter => {
-    this.setState({
-      filter: newFilter
-    })
-  }
+  // updateFilter = newFilter => {
+  //   this.setState({
+  //     filter: newFilter
+  //   })
+  // }
 
 render() {
 // const { value } = this.state
