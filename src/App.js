@@ -1,265 +1,77 @@
 import React, { Component } from 'react';
-import ProjectContainer from './ProjectContainer'
-import SearchBar from "./SearchBar"
-import Stakeholder from './Stakeholder'
-import NewStakeholderForm from './NewStakeholderForm'
-import ManageStakeholder from './ManageStakeholder'
-import { BrowserRouter as Router, Route } from 'react-router-dom';
 import './App.css';
-import AnyChart from 'anychart-react'
-import anychart from 'anychart'
+import index from './index'
+import SignInForm from './SignInForm'
+import Navbar from './Navbar'
+import Home from './Home'
+import PIChart from './PIChart'
+import ManageStakeholder from './ManageStakeholder'
+import Header from './Header'
+import { Route, Switch, withRouter } from 'react-router-dom'
+import APILogin from './APILogin'
+import UserProjects from './UserProjects'
+
 // import {StyleSheet, View, WebView} from 'react-native';
-
-import chartData from './ChartData'
-
-const quarters = {
-  rightTop: {
-    title: {
-      text: 'Manage Closely',
-      fontColor: '#ff8f00',
-      padding: 10
-    }
-  },
-  rightBottom: {
-    title: {
-      text: 'Keep Informed',
-      fontColor: '#ff8f00',
-      padding: 10
-    }
-  },
-  leftTop: {
-    title: {
-      text: 'Keep Satisfied',
-      fontColor: '#ff8f00',
-      padding: 10
-    }
-  },
-  leftBottom: {
-    title: {
-      text: 'Monitor',
-      fontColor: '#ff8f00',
-      padding: 10
-    }
-  }
-}
 
 
 class App extends Component {
 constructor() {
   super()
     this.state = {
-      stakeholders: [],
-      filter: '',
-      selectedStakeholder: null,
-      chartData: null
+      username: '',
+      user: null,
     }
 }
 
-addNewStakeholder = (stakeholder) => {
-  let newStakeholderState = [...this.state.stakeholders, stakeholder]
-  this.setState({
-    stakeholders: newStakeholderState,
-    chartData: newStakeholderState.map(stakeholder => { return {x: stakeholder.ratings[stakeholder.ratings.length -1].interest,
-    value: stakeholder.ratings[stakeholder.ratings.length -1].power,
-    name: stakeholder.name}})
-  })
+signin = (username, token, user) => {
+  this.setState({ username, user })
+  localStorage.setItem('token', token)
 }
 
-addStakeholderFields = (event) => {
-  const newValues = event.target.value
-    this.setState({
-      [event.target.name]: newValues
-    })
+signout = () => {
+  this.setState({ username: '', user: null })
+  localStorage.removeItem('token')
+}
+
+componentDidMount () {
+    APILogin.validate()
+      .then(data => {
+        if (data.error) {
+          this.props.history.push('/signin')
+        } else {
+          this.signin(data.username, data.token, data.user)
+          this.props.history.push('/projects')
+        }
+      })
   }
-
-  updateFilter = newFilter => {
-    this.setState({
-      filter: newFilter
-    })
-  }
-
-deselectStakeholder = () => {
-  this.setState({
-    selectedStakeholder: null
-  })
-}
-
-selectStakeholder = (stakeholder) => {
-  this.setState({
-    selectedStakeholder: stakeholder
-  })
-}
-
-updateStakeholder = (stakeholder, updatedRatings) => {
-  let updatedStakeholder = {
-    name: updatedStakeholder.name === "" ? stakeholder.name : updatedStakeholder.name,
-    title: updatedStakeholder.title === "" ? stakeholder.title : updatedStakeholder.title,
-    alias: updatedStakeholder.alias === "" ? stakeholder.alias : updatedStakeholder.alias,
-    note: updatedStakeholder.note === "" ? stakeholder.note : updatedStakeholder.note
-  }
-  let updatedRating = {
-    power: updatedRatings.power === "" ? stakeholder.ratings[stakeholder.ratings.length - 1].power : updatedRatings.power,
-    interest: updatedRatings.interest === "" ? stakeholder.ratings[stakeholder.ratings.length - 1].interest : updatedRatings.interest,
-    positivity: updatedRatings.positivity === "" ? stakeholder.ratings[stakeholder.ratings.length - 1].positivity : updatedRatings.positivity
-  }
-}
-
-handleRating = (stakeholder, newRatings) => {
-
-  // let newRating = { // add a new ratings object
-  //   ...newRatings, // first take all the new ratings we got passed as arguments
-  //   ...stakeholder.ratings[ // fill it with any other ratings we had in the past
-  //     stakeholder.ratings.length-1 // the latest rating is at the last index in the array
-  //   ]
-  // }
-
- let newRating = {
-   power: newRatings.power === "" ? stakeholder.ratings[stakeholder.ratings.length - 1].power : newRatings.power,
-   interest: newRatings.interest === "" ? stakeholder.ratings[stakeholder.ratings.length - 1].interest : newRatings.interest,
-   positivity: 1,
-   stakeholder_id: 1
- }
-
-  // delete newRating.id
-  // delete newRating.created_at
-  // delete newRating.updated_at
-
-
-  fetch(`http://localhost:3000/stakeholders/${stakeholder.id}/ratings`, {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-  body: JSON.stringify( newRating ),
-}).then(res => res.json())
-  .then(stakeholderToUpdate => {
-    // clone currrent state
-    let newStakeholdersState = [...this.state.stakeholders]
-    // find index of stakeholder with stakeholderToUpdate.id
-    // console.log(stakeholderToUpdate)
-    const indexToUpdate = newStakeholdersState.findIndex(stakeholder => stakeholder.id === stakeholderToUpdate.id)
-    // replace that whole stakeholder object with the new stakeholderToUpdate
-    newStakeholdersState[indexToUpdate] = stakeholderToUpdate
-    this.setState({
-      stakeholders: newStakeholdersState,
-      chartData: newStakeholdersState.map(stakeholder => { return {x: stakeholder.ratings[stakeholder.ratings.length -1].interest,
-      value: stakeholder.ratings[stakeholder.ratings.length -1].power,
-      name: stakeholder.name}})
-    })
-    // set
-  })
-  // .then(this.setState({
-  //   stakeholder: newStakeholdersState
-  // }))
-}
-
-  // stakeholder.ratings[ratings.length -1].power = newRating
-  // this.setState({
-  //   stakeholders: newStakeholdersState
-  // })
-// }
-
-
-componentDidMount() {
-  fetch('http://localhost:3000/stakeholders')
-  .then(res => res.json())
-  .then(stakeholders => this.setState({ stakeholders: stakeholders}))
-  .then(chartData => this.setState({ chartData:
-    this.state.stakeholders.map(stakeholder => { return {x: stakeholder.ratings[stakeholder.ratings.length -1].interest,
-    value: stakeholder.ratings[stakeholder.ratings.length -1].power,
-    name: stakeholder.name}})
-    }))
-}
-
-
-// function = () =>
-// this.setState({
-//   chartData: {
-//     x: this.state.stakeholders.map(stakeholder => stakeholder.ratings.power), value: this.state.stakeholders.map(stakeholder.ratings.interest), name: this.state.stakeholders.map(stakeholder.name)}
-// })
 
 
 
   render() {
-
-
-    let chart = anychart.quadrant();
-    let yTitle = chart.yAxis().title();
-    yTitle.enabled(true);
-    yTitle.text("Power Rating --->");
-    yTitle.align("bottom");
-
-    let yScale = anychart.scales.linear();
-
-
-    let yAxis = chart.yAxis(0);
-    yAxis.scale(yScale);
-
-
-    chart.xAxis().title("Interest Rating --->");
-
-    chart.yScale().minimum(-0.5);
-    chart.yScale().maximum(11.5);
-    chart.xScale().minimum(-0.5);
-    chart.xScale().maximum(11.5)
-
-    chart.title("Power/Interest Position")
-    chart.container("container")
-    chart.draw();
-
-
-    const dataSet = anychart.data.set(this.state.chartData);
-
-    var markers = chart.marker(dataSet);
-    // set labels settings
-    markers.labels()
-      .enabled(true)
-      .fontFamily('Arial')
-      .fontColor('#546e7a')
-      .position('right')
-      .anchor('left-center')
-      .offsetX(2)
-      .offsetY(2)
-      .format('{%Name}');
-    // disabled tooltip
-    markers.tooltip(true);
-
-    chart.quarters(quarters);
+    const { signin, signout } = this
+    const { username, user } = this.state
 
 
 return (
-      <div className="char_page">
-        <div className={"stakeholders_wrapper"}>
-          {!this.state.selectedStakeholder && <SearchBar updateFilter={this.updateFilter}/>}
-          {
-            this.state.selectedStakeholder
-            ?
-            <Stakeholder />
-            :
-            <ProjectContainer stakeholders={this.state.stakeholders}
-                              selectedStakeholder={this.selectedStakeholder}
-                              handleRating={this.handleRating}
-                              filter={this.state.filter}
-                              selectStakeholder={this.selectStakeholder}/>
-          }
-        </div>
-
-        <div className={"graph_section_wrapper"}>
-          <div className="App " id='chart-position' >
-            <AnyChart
-              width='100%'
-              height='100%'
-              id='bar-chart'
-              instance={chart}
-              />
-          </div>
-          <NewStakeholderForm addNewStakeholder={this.addNewStakeholder}/>
-        </div>
+      <div>
+        <div>
+          <Navbar className="navbar"/>
+          <Header username={username} signout={signout} className="signout_header" />
+            <Switch>
+              <Route exact path="/projects" component={routerProps =>
+                <UserProjects {...routerProps} user={user} username={username} />} />
+              <Route exact path="/PI_Chart/:id" component={routerProps =>
+                <PIChart {...routerProps} username={username} />} />
+              <Route exact path="/signin" component={routerProps =>
+                <SignInForm {...routerProps} signin={signin}/>} />
+              <Route exact path="/manage_stakeholder/:id" component={ManageStakeholder} />
+              <Route path="/" component={Home} />
+            </Switch>
       </div>
-
+    </div>
     );
   }
 }
 
 
-export default App;
+export default withRouter(App);

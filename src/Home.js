@@ -1,10 +1,12 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+
 // Step 1. Import react-router functions
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+
+
 
 const Home = () => {
   return (
+
     <div className='welcome_page'>
     <p></p>
     <p></p>
@@ -25,8 +27,10 @@ const Home = () => {
       <ol>4. Change ratings or any other stakeholder information as your project progresses.</ol>
       </ul>
       </p>
-      <h3>You will find some more information about Stakeholder Analysis <a>here</a>.</h3>
+      <h3>You will find some more information about Stakeholder Analysis (insert link here).</h3>
 
+      </div>
+      <div><a to={"/signin"}>Sign In or Register</a>
       </div>
     </div>
   );

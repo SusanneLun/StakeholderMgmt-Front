@@ -1,8 +1,40 @@
 .App {
   text-align: left;
-
-
 }
+
+.header {
+  display: flex;
+  justify-content: flex-end;
+  color: #ad3acf;
+  padding: 1em;
+  margin-right: 3em;
+}
+
+.project_overview {
+  display: flex;
+  justify-content: center;
+  padding: 2em;
+}
+
+#create-project {
+  display: flex;
+  width: 70%;
+  margin-left: 3em;
+  padding: 2em;
+}
+
+#create-project .equal.width.fields {
+  margin: 0;
+  justify-content: space-between;
+  margin-bottom: 1em;
+}
+
+#create-project .equal.width.fields .field {
+  padding: 1em;
+  width: 70%;
+}
+
+
 /*
 html, body, #container {
   width: 100%;
@@ -17,6 +49,7 @@ html, body, #container {
 }
 
 html, body, #root, #bar-chart {
+
 }
 
 .char_page {
@@ -90,9 +123,18 @@ html, body, #root, #bar-chart {
   width: 700px;
 }
 
+.login_input {
+  margin-top: 200;
+  width: 50;
+  display: flex;
+  align-items: center;
+  flex-direction: column
+}
+
 .welcome_page {
   display: center;
   margin-left: 4em;
+  margin-top: 5em;
   width: 100%;
 }
 
@@ -119,6 +161,26 @@ html, body, #root, #bar-chart {
   padding: 0;
   width: 30%;
   flex: inherit;
+}
+
+.project_list {
+  display: flex;
+  justify-content: space-around;
+  flex-direction: column;
+}
+
+.navbar {
+  width: '100px';
+  padding: '12px';
+  margin: '0 6px 6px';
+  background: 'purple';
+  textDecoration: 'none';
+  color: 'white';
+}
+
+.new_project_submit {
+  display: flex;
+  justify-content: flex-end;
 }
 
 .new_stakeholder_submit {

@@ -159,9 +159,7 @@ const Quadrant = () => {
       });
     });
     return (
-      <div>
-      Hello
-      </div>
+      <div id="container" style="width: 700px; height: 700px;"></div>
     )
 
 

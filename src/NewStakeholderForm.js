@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
-import Hover from './Hover'
-import { Dropdown, Input, Button, Form, Select, Show } from 'semantic-ui-react'
+import { Form, Select } from 'semantic-ui-react'
 
 const options = [
   { key: "1", text: '1',value: 1 },
@@ -53,7 +52,8 @@ handleNumChange = (event, data) => {
         alias: this.state.alias,
         power: this.state.power,
         interest: this.state.interest,
-        positivity: this.state.positivity
+        positivity: this.state.positivity,
+        project_id: this.props.project_id
       }
       )
     }).then(res => res.json())

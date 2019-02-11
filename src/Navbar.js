@@ -1,11 +1,12 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+
 /* Add NavLink to importer */
-import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 /* Add basic styling for NavLinks */
 const link = {
   width: '100px',
+  height: '80px',
   padding: '12px',
   margin: '0 6px 6px',
   background: 'purple',
@@ -24,9 +25,23 @@ const Navbar = () =>
       style={link}
       /* add prop for activeStyle */
       activeStyle={{
-        background: 'violet'
+        background: 'purple'
       }}
     >Home</NavLink>
+    <NavLink
+    to="/signin"
+    exact
+    style={link}
+    activeStyle={{
+      background: 'purple'
+    }}>Sign in</NavLink>
+    <NavLink
+    to="/projects"
+    exact
+    style={link}
+    activeStyle={{
+      background: 'purple'
+    }}>Projects</NavLink>
     <NavLink
       to="/PI_Chart"
       exact

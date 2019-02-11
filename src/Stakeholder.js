@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Card, Input } from 'semantic-ui-react'
+import { Button, Card } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 
 

@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import Stakeholder from './Stakeholder'
-import { Header, Container } from 'semantic-ui-react'
 
 
 
-class ProjectContainer extends Component {
+
+class StakeholderContainer extends Component {
 
 
 
@@ -26,4 +26,4 @@ render() {
 }
 }
 
-export default ProjectContainer
+export default StakeholderContainer

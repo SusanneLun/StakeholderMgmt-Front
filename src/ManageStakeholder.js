@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { Dropdown, Input, Button, Form, Select } from 'semantic-ui-react'
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { Container, Form, Select } from 'semantic-ui-react'
+
 
 const options = [
   { key: "1", text: '1',value: 1 },
@@ -91,7 +91,15 @@ class ManageStakeholder extends Component {
         interest: stakeholder.ratings[stakeholder.ratings.length -1].interest,
         positivity: stakeholder.ratings[stakeholder.ratings.length -1].positivity
       })
-    })
+    }).then(this.setState({
+      name: "",
+      title: "",
+      alias: "",
+      note: "",
+      power: 0,
+      interest: 0,
+      positivity: 0
+    }))
   }
 
 
@@ -119,7 +127,7 @@ render() {
 
 return (
 <div >
-  <Form  style={{marginLeft: 50, top: 80}}>
+  <Form  onSubmit={() => this.handleSubmit(this.props.match.params.id, this.state)} style={{marginLeft: 50, top: 80}}>
   <p></p>
   <p></p>
   <h3>View And Edit Stakeholder</h3>
@@ -127,7 +135,9 @@ return (
     <Form.Input  name="name" fluid label="Name" type="text" onChange={event => this.handleChange(event)} value={this.state.name} />
     <Form.Input name="title" fluid label='Title' type="text" onChange={this.handleChange}  value={this.state.title}/>
     <Form.Input name="alias" fluid label='Alias' type="text" onChange={this.handleChange}  value={this.state.alias}/>
+    <Container text>
     <Form.Input name="note" fluid label='My Notes' type="text" onChange={this.handleChange} value={this.state.note}/>
+    </Container>
     </Form.Group>
     <p>Power Rating</p>
     <Select name="power" label="Power Rating" type="number" options={options}
@@ -138,7 +148,7 @@ return (
     <Select name="positivity" label='Positivity Rating' placeholder="Select" onChange={this.handleNumChange} options={options} value={this.state.positivity}/>
     <p></p>
     <div className={"new_stakeholder_submit"}>
-    <Form.Button type="submit" onSubmit={() => this.handleSubmit(this.props.match.params.id, this.state)} color="purple"> Update Stakeholder </Form.Button>
+    <Form.Button type="submit"  color="purple"> Update Stakeholder </Form.Button>
     <Form.Button type="delete"  color="red" onClick={() => this.handleDelete(this.props.match.params.id, this.state)}> Delete Stakeholder </Form.Button>
     </div>
 </Form>
