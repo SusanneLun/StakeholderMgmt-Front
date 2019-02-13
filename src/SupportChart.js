@@ -1,67 +1,45 @@
 import React, { Component } from 'react'
+import StakeholderSupport from './StakeholderSupport'
+import APILogin from './APILogin'
+import SupportContainer from './SupportContainer'
+import Strategies from './Strategies'
 
 
 
 class SupportChart extends Component {
-
+constructor() {
+  super()
       this.state = {
-        name: [],
-        positivity: 0
+        stakeholders: [],
       }
+}
+
+
 
 componentDidMount() {
-  const { username, history } = this.props
-  if (!username) {
-  history.push('signin')
-  } else {
-  fetch('http://localhost:3000/stakeholders')
-  .then(res => res.json())
+  const { id } = this.props.match.params
+  APILogin.getProjectStakeholders(id)
   .then(stakeholders => this.setState({ stakeholders: stakeholders}))
 }
-}
-  
+
+
 
 render() {
+
   return (
 
-    <table class="ui collapsing table">
-      <thead>
-        <tr>
-          <th>Support Rating</th>
-          <th>Name</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>John</td>
-          <td>Approved</td>
-          <td>None</td>
-        </tr>
-        <tr>
-          <td>Jamie</td>
-          <td>Approved</td>
-          <td>Requires call</td>
-        </tr>
-        <tr>
-          <td>Jill</td>
-          <td>Denied</td>
-          <td>None</td>
-        </tr>
-      </tbody>
-      <tfoot>
-        <tr><th>3 People</th>
-        <th>2 Approved</th>
-        <th></th>
-      </tr></tfoot>
-    </table>
+    <div className="support_chart_wrapper">
+    {this.state.stakeholders.length > 0 ?
+    <SupportContainer stakeholders={this.state.stakeholders}
+        handleRating={this.handleRating} />
+     : null}
+     <Strategies />
 
+    </div>
 
   )
 }
 
-
-
-
-
-
 }
+
+export default SupportChart

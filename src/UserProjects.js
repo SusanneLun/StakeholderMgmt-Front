@@ -12,9 +12,15 @@ class UserProjects extends Component {
   }
 }
 
+addNewProject = (project) => {
+  let newProjectState = [...this.state.projects, project]
+  this.setState({
+    projects: newProjectState,
+  })
+}
+
 
 getUserProjects = () => {
-  console.log('getting user projects')
   if (this.props.user) {
     APILogin.getUserProjects()
     .then(projects => this.setState({ projects }))
@@ -38,7 +44,7 @@ render () {
         projects.map(project =>
           <Project key={project.id} project={project} />)
       }
-          <NewProject />
+          <NewProject addNewProject={this.addNewProject} />
 
     </div>
   )

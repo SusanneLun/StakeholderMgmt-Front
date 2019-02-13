@@ -17,10 +17,19 @@
 }
 
 #create-project {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5);
+  align-items: center;
+  justify-content: center;
+}
+
+#create-project.visible {
   display: flex;
-  width: 70%;
-  margin-left: 3em;
-  padding: 2em;
 }
 
 #create-project .equal.width.fields {
@@ -34,6 +43,31 @@
   width: 70%;
 }
 
+.support_chart_wrapper {
+
+    display: flex;
+    /* flex: 1 1 auto; */
+    height: calc(100vh - 167px);
+    overflow: hidden;
+    justify-content: space-around;
+}
+
+.form_popup {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    padding: 2em;
+    border-radius: 10px;
+
+}
+
+#create-project .equal.width.fields.form_area {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
 
 /*
 html, body, #container {
@@ -163,10 +197,33 @@ html, body, #root, #bar-chart {
   flex: inherit;
 }
 
+.ui-container.stakeholders_list {
+
+    height: 100%;
+    overflow: scroll;
+    width:  300px;
+}
+
+.strategy_wrapper {
+    width: calc(100vw - 350px);
+    padding: 2em;
+}
+
+.ui-container.strategy_list {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.ui-container.strategy_list > div {
+  width: 50%;
+  padding: 1em;
+}
+
 .project_list {
   display: flex;
   justify-content: space-around;
   flex-direction: column;
+  padding: 3em;
 }
 
 .navbar {

@@ -24,6 +24,14 @@ static getUserProjects () {
   return this.get(`http://localhost:3000/user_projects`)
 }
 
+static getSupportRatings () {
+  return this.get(`http://localhost:3000/stakeholders`)
+}
+
+static getCategories () {
+  return this.get(`http://localhost:3000/categories`)
+}
+
 static getProjectStakeholders (id) {
   return fetch(this.projectStakeholdersURL, {
     method: "POST",
@@ -40,11 +48,12 @@ static get (url) {
     }
 
 static createUser (user) {
-      return fetch('http://localhost:3001/users', {
+      return fetch('http://localhost:3000/users', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(user)
       }).then(resp => resp.json())
+      .then(console.log('hep'))
     }
 
 }

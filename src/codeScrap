@@ -28,3 +28,28 @@ stakeholder.name &&
       fetch('http://localhost:3000/stakeholders')
       .then(res => res.json())
       .then(stakeholders => this.setState({ stakeholders: stakeholders}))
+
+
+      .then(positivity => this.setState({ positivity:
+        this.state.stakeholders.map(stakeholder => stakeholder.ratings[stakeholder.ratings.length -1].positivity)}))
+
+
+        componentDidMount() {
+          const { id } = this.props.match.params
+          APILogin.getProjectStakeholders(id)
+          .then(stakeholders => this.setState({ stakeholders: stakeholders}))
+          }
+
+          <div class="ui checkbox">
+            <input type="checkbox" name="example">
+            <label>Make my profile visible</label>
+          </div>
+
+
+          <FormControlLabel
+            control={<Checkbox value="remember" color="primary" />}
+            label="Remember me"
+          />
+
+          <div class="ui checkbox">
+          <input type="checkbox" />

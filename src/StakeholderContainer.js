@@ -2,10 +2,7 @@ import React, { Component } from 'react';
 import Stakeholder from './Stakeholder'
 
 
-
-
 class StakeholderContainer extends Component {
-
 
 
 render() {

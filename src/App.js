@@ -10,6 +10,8 @@ import Header from './Header'
 import { Route, Switch, withRouter } from 'react-router-dom'
 import APILogin from './APILogin'
 import UserProjects from './UserProjects'
+import SignUpForm from './SignUpForm'
+import SupportChart from './SupportChart'
 
 // import {StyleSheet, View, WebView} from 'react-native';
 
@@ -32,6 +34,7 @@ signout = () => {
   this.setState({ username: '', user: null })
   localStorage.removeItem('token')
 }
+
 
 componentDidMount () {
     APILogin.validate()
@@ -59,11 +62,15 @@ return (
           <Header username={username} signout={signout} className="signout_header" />
             <Switch>
               <Route exact path="/projects" component={routerProps =>
-                <UserProjects {...routerProps} user={user} username={username} />} />
+              <UserProjects {...routerProps} user={user} username={username} />} />
               <Route exact path="/PI_Chart/:id" component={routerProps =>
-                <PIChart {...routerProps} username={username} />} />
+              <PIChart {...routerProps} username={username} />} />
               <Route exact path="/signin" component={routerProps =>
-                <SignInForm {...routerProps} signin={signin}/>} />
+              <SignInForm {...routerProps} signin={signin}/>} />
+              <Route exact path="/signup" component={routerProps =>
+              <SignUpForm {...routerProps} />} />
+              <Route exact path="/support/:id" component={routerProps =>
+              <SupportChart {...routerProps} username={username} /> } />
               <Route exact path="/manage_stakeholder/:id" component={ManageStakeholder} />
               <Route path="/" component={Home} />
             </Switch>

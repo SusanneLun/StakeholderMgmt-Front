@@ -10,7 +10,7 @@ const Header = ({ username, signout }) =>
 <p></p>
 {
   username
-  ? <Link to='/home'> <button onClick={signout}>Sign Out</button> </Link>
+  ? <Link to='/home'> <button color="purple" onClick={signout}>Sign Out</button> </Link>
   : <Link to='/signin'><button>Sign In</button></Link>
 }
 </h5>

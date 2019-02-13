@@ -10,14 +10,38 @@ class NewProject extends Component {
       }
 }
 
+
+
+handleSubmit = (event) => {
+  event.preventDefault();
+  fetch(`http://localhost:3000/projects`,
+  {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(
+      {
+        name: this.state.name,
+        description: this.state.description
+      }
+    )
+  }).then(res => res.json())
+  .then(res => this.props.addNewProject(res))
+  .then(this.setState({
+    name: "",
+    description: ""
+  }))
+}
+
 render() {
   return (
 
 
   <div id="create-project">
-    <Form  onSubmit={this.handleSubmit}>
+    <Form  className="form_popup" onSubmit={this.handleSubmit}>
       <h3>Create New Project</h3>
-      <Form.Group widths='equal' >
+      <Form.Group className="form_area" widths='equal' >
         <Form.Input name="name" fluid label='Project Name' type="text" placeholder="Project Name" value={this.state.value} />
         <Form.Input name="description" fluid label='Project Description' type="text" placeholder="Project Description" value={this.state.value}/>
       </Form.Group>

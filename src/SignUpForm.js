@@ -43,7 +43,7 @@ const styles = theme => ({
   },
 });
 
-class SignInForm extends Component {
+class SignUpForm extends Component {
 
   state = {
     username: '',
@@ -54,13 +54,12 @@ class SignInForm extends Component {
 
 handleSubmit = (event) => {
   event.preventDefault()
-    APILogin.signin(this.state)
+    APILogin.createUser(this.state)
     .then(data => {
       if (data.error) {
         alert(data.error)
       } else {
-        this.props.signin(this.state.username, data.token, data.user)
-        this.props.history.push('/projects')
+        this.props.history.push('/signin')
       }
     })
   }
@@ -79,7 +78,7 @@ render() {
   <div className="login_input">
           <LockOutlinedIcon className="login_input"/>
         <Typography className="login_input">
-          Sign in
+          Sign up
         </Typography>
         <form onSubmit={this.handleSubmit} className="login_input">
           <FormControl >
@@ -103,17 +102,14 @@ render() {
             variant="contained"
             color="purple"
           >
-            Sign in
+            Sign up
           </Button>
         </form>
-
-        <h3>Not signed up yet? Register <Link to={'/signup'}>here.</Link></h3>
-
+        <h3>Already registered? Sign in <Link to={'/signin'}>here.</Link></h3>
     </div>
   );
 }
 }
 
 
-
-export default withStyles(styles)(SignInForm);
+export default withStyles(styles)(SignUpForm);

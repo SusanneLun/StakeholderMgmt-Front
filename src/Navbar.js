@@ -36,6 +36,13 @@ const Navbar = () =>
       background: 'purple'
     }}>Sign in</NavLink>
     <NavLink
+    to="/signup"
+    exact
+    style={link}
+    activeStyle={{
+      background: 'purple'
+    }}>Sign up</NavLink>
+    <NavLink
     to="/projects"
     exact
     style={link}
@@ -50,6 +57,14 @@ const Navbar = () =>
         background: 'purple'
       }}
     >PI Chart</NavLink>
+    <NavLink
+      to="/support"
+      exact
+      style={link}
+      activeStyle={{
+        background: 'purple'
+      }}
+    >Support</NavLink>
     <NavLink
       to="/manage_stakeholder"
       exact
